@@ -156,32 +156,35 @@ export function AffiliateDashboard({
         </button>
       </header>
       <main className="dashboard">
-        <section className="welcome-row">
-          <div><p className="section-kicker">Resumen</p><h2>Tus resultados</h2></div>
-          <span className="status-pill">Cuenta activa</span>
-        </section>
-        <section className="level-panel">
-          <div className="level-title"><div><p className="section-kicker">Progresión</p><h3>Nivel {overview.partner.level}</h3></div><strong>{overview.partner.commissionRate * 100}%</strong></div>
+        <section className="dashboard-hero">
+          <div className="dashboard-title">
+            <p className="section-kicker">Panel / Resumen</p>
+            <h2>Tus resultados</h2>
+            <span className="status-pill">Cuenta activa</span>
+          </div>
+          <div className="level-summary">
+            <div className="level-title"><div><p className="section-kicker">Nivel actual</p><h3>Nivel {overview.partner.level}</h3></div><strong>{overview.partner.commissionRate * 100}%</strong></div>
           {overview.nextLevel ? <>
             <div className="level-copy"><span>{money(overview.netRevenue)} netos acumulados</span><span>Nivel {overview.nextLevel.level} · {overview.nextLevel.commissionRate * 100}%</span></div>
             <div className="progress-track"><div className="progress-value" style={{ width: `${overview.levelProgress}%` }} /></div>
             <p className="level-hint">Te faltan {money(Math.max(0, overview.nextLevel.minimumNetRevenue - overview.netRevenue))} para alcanzar el siguiente porcentaje.</p>
           </> : <p className="level-hint">Has alcanzado el nivel máximo de comisión.</p>}
+          </div>
         </section>
-        <section className="stat-grid">
-          <article className="stat-card"><span>Usuarios referidos</span><strong>{overview.referredUsers}</strong></article>
-          <article className="stat-card"><span>Comisiones pendientes</span><strong>{money(overview.pendingCommissions)}</strong></article>
-          <article className="stat-card"><span>Total pagado</span><strong>{money(overview.paidCommissions)}</strong></article>
-          <article className="stat-card accent"><span>Total generado</span><strong>{money(overview.totalCommissions)}</strong></article>
+        <section className="metrics-strip" aria-label="Métricas principales">
+          <article className="metric"><span>Referidos</span><strong>{overview.referredUsers}</strong><small>usuarios</small></article>
+          <article className="metric"><span>Pendiente</span><strong>{money(overview.pendingCommissions)}</strong><small>por liquidar</small></article>
+          <article className="metric"><span>Pagado</span><strong>{money(overview.paidCommissions)}</strong><small>acumulado</small></article>
+          <article className="metric metric-primary"><span>Total generado</span><strong>{money(overview.totalCommissions)}</strong><small>comisiones</small></article>
         </section>
-        <section className="content-grid">
-          <article className="panel">
-            <div className="panel-heading"><div><p className="section-kicker">Audiencia</p><h3>Usuarios referidos</h3></div><span className="count-badge" aria-label={`${users.length} usuarios`}>{users.length}</span></div>
-            {users.length === 0 ? <p className="empty-state">Todavía no hay usuarios registrados.</p> : <><div className="table-wrap"><table><thead><tr><th>Usuario</th><th>Registrado</th></tr></thead><tbody>{visibleUsers.map((item) => <tr key={item.id}><td>{item.name}</td><td>{formatDate(item.registeredAt)}</td></tr>)}</tbody></table></div><Pagination currentPage={usersPage} totalItems={users.length} onPageChange={setUsersPage} /></>}
-          </article>
-          <article className="panel commissions-panel">
+        <section className="ledger-layout">
+          <article className="ledger-section commissions-panel">
             <div className="panel-heading"><div><p className="section-kicker">Ingresos</p><h3>Comisiones</h3></div><span className="count-badge" aria-label={`${commissions.length} comisiones`}>{commissions.length}</span></div>
             {commissions.length === 0 ? <p className="empty-state">Todavía no hay comisiones.</p> : <><div className="table-wrap"><table><thead><tr><th>Operación</th><th>Comisión</th><th>Estado</th></tr></thead><tbody>{visibleCommissions.map((item) => <tr key={item.id}><td><strong>{formatOperation(item.operationType)}</strong><small>{item.store} · {formatDate(item.createdAt)}</small></td><td className="commission-value">{money(item.commissionAmount, item.currency)}</td><td><span className={`commission-status ${item.status}`}>{item.status === "paid" ? "Pagada" : item.status === "cancelled" ? "Cancelada" : "Pendiente"}</span></td></tr>)}</tbody></table></div><Pagination currentPage={commissionsPage} totalItems={commissions.length} onPageChange={setCommissionsPage} /></>}
+          </article>
+          <article className="ledger-section referrals-panel">
+            <div className="panel-heading"><div><p className="section-kicker">Audiencia</p><h3>Usuarios referidos</h3></div><span className="count-badge" aria-label={`${users.length} usuarios`}>{users.length}</span></div>
+            {users.length === 0 ? <p className="empty-state">Todavía no hay usuarios registrados.</p> : <><div className="table-wrap"><table><thead><tr><th>Usuario</th><th>Registrado</th></tr></thead><tbody>{visibleUsers.map((item) => <tr key={item.id}><td>{item.name}</td><td>{formatDate(item.registeredAt)}</td></tr>)}</tbody></table></div><Pagination currentPage={usersPage} totalItems={users.length} onPageChange={setUsersPage} /></>}
           </article>
         </section>
       </main>
