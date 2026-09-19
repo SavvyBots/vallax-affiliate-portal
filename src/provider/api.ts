@@ -1,7 +1,7 @@
 export const API_URL = (import.meta.env.VITE_API_URL ?? "/api").replace(/\/$/, "");
 
 export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(`${API_URL}${path}`, {
+  const response = await fetch(`/api/${path}`, {
     ...init,
     credentials: "include",
     headers: {
