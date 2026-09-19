@@ -160,7 +160,6 @@ export function AffiliateDashboard({
           <div className="dashboard-title">
             <p className="section-kicker">Panel / Resumen</p>
             <h2>Tus resultados</h2>
-            <span className="status-pill">Cuenta activa</span>
           </div>
           <div className="level-summary">
             <div className="level-title"><div><p className="section-kicker">Nivel actual</p><h3>Nivel {overview.partner.level}</h3></div><strong>{overview.partner.commissionRate * 100}%</strong></div>

@@ -42,7 +42,7 @@ export function LoginPage({
         </div>
         <div className="auth-intro-copy">
           <p className="section-kicker">Partners / 01</p>
-          <h1>Tu crecimiento,<br /><span>en datos.</span></h1>
+          <h1>Partners de<br /><span>afiliados.</span></h1>
           <p>Seguimiento preciso de referidos, ingresos y comisiones.</p>
         </div>
         <p className="auth-intro-foot">Programa de afiliados Vallax</p>
@@ -80,7 +80,12 @@ export function LoginPage({
               {!isPending && <span aria-hidden="true">→</span>}
             </button>
           </form>
-          <p className="auth-help">Acceso exclusivo para afiliados autorizados.</p>
+          <div className="auth-apply">
+            <p>¿Quieres formar parte del programa?</p>
+            <a href="mailto:vallaxdev@gmail.com?subject=Solicitud%20para%20el%20programa%20de%20afiliados%20Vallax&body=Hola%20equipo%20de%20Vallax%2C%0A%0AMe%20gustar%C3%ADa%20solicitar%20acceso%20al%20programa%20de%20afiliados.%0A%0ANombre%3A%0ACanal%20o%20comunidad%3A%0AAudiencia%20aproximada%3A%0A%0AGracias.">
+              Solicitar acceso <span aria-hidden="true">↗</span>
+            </a>
+          </div>
         </div>
       </section>
     </main>
