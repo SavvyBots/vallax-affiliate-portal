@@ -116,6 +116,11 @@ export function AffiliateDashboard({
       })
       .catch((requestError) => {
         const message = requestError instanceof Error ? requestError.message : "No se han podido cargar los datos";
+        if (message === "El email o la contraseña no son correctos.") {
+          apiFetch("/auth/sign-out", { method: "POST", body: JSON.stringify({}) })
+            .finally(() => onAccessDenied("Tu sesión ha caducado. Inicia sesión de nuevo."));
+          return;
+        }
         if (message === "Affiliate access is not active") {
           apiFetch("/auth/sign-out", { method: "POST", body: JSON.stringify({}) })
             .finally(() => onAccessDenied("Tu cuenta no está habilitada como afiliado."));
