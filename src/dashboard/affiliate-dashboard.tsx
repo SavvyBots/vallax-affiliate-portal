@@ -149,7 +149,7 @@ export function AffiliateDashboard({
   return (
     <div className="app-shell">
       <header className="topbar">
-        <div className="brand-lockup"><img className="brand-logo-inline" src="/vallax-iso-color-claro.png" alt="" /><div><p className="brand-name">VALLAX</p><h1>Portal de afiliados</h1></div></div>
+        <div className="brand-lockup"><img className="brand-wordmark" src="/vallax-wordmark.svg" alt="Vallax" /><span className="brand-divider" aria-hidden="true" /><h1>Portal de afiliados</h1></div>
         <button className="button-quiet" onClick={logout} aria-label="Cerrar sesión">
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M15 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/></svg>
           <span>Cerrar sesión</span>

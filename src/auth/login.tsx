@@ -37,8 +37,7 @@ export function LoginPage({
     <main className="auth-shell">
       <section className="auth-intro">
         <div className="auth-intro-brand">
-          <img className="brand-logo" src="/vallax-iso-color-claro.png" alt="" />
-          <p className="brand-name">VALLAX</p>
+          <img className="brand-wordmark" src="/vallax-wordmark.svg" alt="Vallax" />
         </div>
         <div className="auth-intro-copy">
           <p className="section-kicker">Partners / 01</p>
@@ -50,7 +49,7 @@ export function LoginPage({
       <section className="auth-panel">
         <div className="auth-form-wrap">
           <header className="auth-brand">
-            <div className="auth-mobile-brand"><img src="/vallax-iso-color-claro.png" alt="" /><span>VALLAX</span></div>
+            <div className="auth-mobile-brand"><img className="brand-wordmark" src="/vallax-wordmark.svg" alt="Vallax" /></div>
             <p className="section-kicker">Acceso privado</p>
             <h2>Portal de afiliados</h2>
             <p className="muted">Introduce tus credenciales para continuar.</p>
