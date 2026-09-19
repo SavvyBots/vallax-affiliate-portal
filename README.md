@@ -1,1 +1,1 @@
-# Vallax Affilite Portal
+# Vallax Affiliate Portal
