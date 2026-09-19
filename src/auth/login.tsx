@@ -23,7 +23,11 @@ export function LoginPage({
     })
       .then(onSuccess)
       .catch((loginError: unknown) => {
-        setError(loginError instanceof Error ? loginError.message : "No se ha podido iniciar sesión");
+        if (loginError instanceof Error) {
+          console.error("Login request failed:", loginError);
+        }
+
+        setError("No se ha podido iniciar sesión. Comprueba tus datos e inténtalo de nuevo.");
       })
       .finally(() => setIsPending(false));
   }
