@@ -73,6 +73,14 @@ function money(value: number | string, currency = "EUR") {
   return new Intl.NumberFormat("es-ES", { style: "currency", currency }).format(Number(value));
 }
 
+function formatDate(value: string) {
+  return new Intl.DateTimeFormat("es-ES", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(new Date(value));
+}
+
 function formatOperation(type: string) {
   if (type === "INITIAL_PURCHASE") return "Primera suscripción";
   if (type === "RENEWAL") return "Renovación";
@@ -141,16 +149,19 @@ export function AffiliateDashboard({
   return (
     <div className="app-shell">
       <header className="topbar">
-        <div className="brand-lockup"><img className="brand-logo-inline" src="/vallax-iso-color-claro.png" alt="Vallax" /><div><p className="eyebrow">VALLAX</p><h1>Affiliate Portal</h1></div></div>
-        <button className="button-quiet" onClick={logout}>Cerrar sesión</button>
+        <div className="brand-lockup"><img className="brand-logo-inline" src="/vallax-iso-color-claro.png" alt="" /><div><p className="brand-name">VALLAX</p><h1>Portal de afiliados</h1></div></div>
+        <button className="button-quiet" onClick={logout} aria-label="Cerrar sesión">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M15 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/></svg>
+          <span>Cerrar sesión</span>
+        </button>
       </header>
       <main className="dashboard">
         <section className="welcome-row">
-          <div><p className="eyebrow">RESUMEN</p><h2>Tus resultados</h2></div>
-          <span className="status-pill">Cuenta activa · {overview.partner.commissionRate * 100}%</span>
+          <div><p className="section-kicker">Resumen</p><h2>Tus resultados</h2></div>
+          <span className="status-pill">Cuenta activa</span>
         </section>
         <section className="level-panel">
-          <div className="level-title"><div><p className="eyebrow">PROGRESIÓN</p><h3>Nivel {overview.partner.level}</h3></div><strong>{overview.partner.commissionRate * 100}%</strong></div>
+          <div className="level-title"><div><p className="section-kicker">Progresión</p><h3>Nivel {overview.partner.level}</h3></div><strong>{overview.partner.commissionRate * 100}%</strong></div>
           {overview.nextLevel ? <>
             <div className="level-copy"><span>{money(overview.netRevenue)} netos acumulados</span><span>Nivel {overview.nextLevel.level} · {overview.nextLevel.commissionRate * 100}%</span></div>
             <div className="progress-track"><div className="progress-value" style={{ width: `${overview.levelProgress}%` }} /></div>
@@ -165,12 +176,12 @@ export function AffiliateDashboard({
         </section>
         <section className="content-grid">
           <article className="panel">
-            <div className="panel-heading"><div><p className="eyebrow">AUDIENCIA</p><h3>Usuarios referidos</h3></div><span>{users.length}</span></div>
-            {users.length === 0 ? <p className="empty-state">Todavía no hay usuarios registrados.</p> : <><div className="table-wrap"><table><thead><tr><th>Usuario</th><th>Registrado</th></tr></thead><tbody>{visibleUsers.map((item) => <tr key={item.id}><td>{item.name}</td><td>{new Date(item.registeredAt).toLocaleDateString("es-ES")}</td></tr>)}</tbody></table></div><Pagination currentPage={usersPage} totalItems={users.length} onPageChange={setUsersPage} /></>}
+            <div className="panel-heading"><div><p className="section-kicker">Audiencia</p><h3>Usuarios referidos</h3></div><span className="count-badge" aria-label={`${users.length} usuarios`}>{users.length}</span></div>
+            {users.length === 0 ? <p className="empty-state">Todavía no hay usuarios registrados.</p> : <><div className="table-wrap"><table><thead><tr><th>Usuario</th><th>Registrado</th></tr></thead><tbody>{visibleUsers.map((item) => <tr key={item.id}><td>{item.name}</td><td>{formatDate(item.registeredAt)}</td></tr>)}</tbody></table></div><Pagination currentPage={usersPage} totalItems={users.length} onPageChange={setUsersPage} /></>}
           </article>
           <article className="panel commissions-panel">
-            <div className="panel-heading"><div><p className="eyebrow">INGRESOS</p><h3>Comisiones</h3></div><span>{commissions.length}</span></div>
-            {commissions.length === 0 ? <p className="empty-state">Todavía no hay comisiones.</p> : <><div className="table-wrap"><table><thead><tr><th>Operación</th><th>Comisión</th><th>Estado</th></tr></thead><tbody>{visibleCommissions.map((item) => <tr key={item.id}><td><strong>{formatOperation(item.operationType)}</strong><small>{item.store} · {new Date(item.createdAt).toLocaleDateString("es-ES")}</small></td><td className="commission-value">{money(item.commissionAmount, item.currency)}</td><td><span className={`commission-status ${item.status}`}>{item.status === "paid" ? "Pagada" : item.status === "cancelled" ? "Cancelada" : "Pendiente"}</span></td></tr>)}</tbody></table></div><Pagination currentPage={commissionsPage} totalItems={commissions.length} onPageChange={setCommissionsPage} /></>}
+            <div className="panel-heading"><div><p className="section-kicker">Ingresos</p><h3>Comisiones</h3></div><span className="count-badge" aria-label={`${commissions.length} comisiones`}>{commissions.length}</span></div>
+            {commissions.length === 0 ? <p className="empty-state">Todavía no hay comisiones.</p> : <><div className="table-wrap"><table><thead><tr><th>Operación</th><th>Comisión</th><th>Estado</th></tr></thead><tbody>{visibleCommissions.map((item) => <tr key={item.id}><td><strong>{formatOperation(item.operationType)}</strong><small>{item.store} · {formatDate(item.createdAt)}</small></td><td className="commission-value">{money(item.commissionAmount, item.currency)}</td><td><span className={`commission-status ${item.status}`}>{item.status === "paid" ? "Pagada" : item.status === "cancelled" ? "Cancelada" : "Pendiente"}</span></td></tr>)}</tbody></table></div><Pagination currentPage={commissionsPage} totalItems={commissions.length} onPageChange={setCommissionsPage} /></>}
           </article>
         </section>
       </main>

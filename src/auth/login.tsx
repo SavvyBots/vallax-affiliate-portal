@@ -10,6 +10,7 @@ export function LoginPage({
 }) {
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | undefined>(initialError);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -35,20 +36,32 @@ export function LoginPage({
   return (
     <main className="auth-shell">
       <section className="auth-card">
-        <img className="brand-logo" src="/vallax-iso-color-claro.png" alt="Vallax" />
-        <p className="eyebrow">VALLAX</p>
-        <h1>Affiliate Portal</h1>
-        <p className="muted">Consulta tus referidos y tus comisiones.</p>
+        <header className="auth-brand">
+          <img className="brand-logo" src="/vallax-iso-color-claro.png" alt="" />
+          <p className="brand-name">VALLAX</p>
+          <h1>Portal de afiliados</h1>
+          <p className="muted">Consulta tus referidos y gestiona tus comisiones.</p>
+        </header>
         <form onSubmit={onSubmit} className="stack-form">
           <label>
-            Email
+            Correo electrónico
             <input name="email" type="email" autoComplete="email" required />
           </label>
           <label>
             Contraseña
-            <input name="password" type="password" autoComplete="current-password" required />
+            <span className="password-field">
+              <input name="password" type={isPasswordVisible ? "text" : "password"} autoComplete="current-password" required />
+              <button
+                className="password-toggle"
+                type="button"
+                aria-pressed={isPasswordVisible}
+                onClick={() => setIsPasswordVisible((visible) => !visible)}
+              >
+                {isPasswordVisible ? "Ocultar" : "Mostrar"}
+              </button>
+            </span>
           </label>
-          {error && <p className="form-error">{error}</p>}
+          {error && <p className="form-error" role="alert">{error}</p>}
           <button disabled={isPending} type="submit">
             {isPending ? "Entrando…" : "Iniciar sesión"}
           </button>
